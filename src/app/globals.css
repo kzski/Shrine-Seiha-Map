@@ -1,26 +1,272 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #1a1a2e;
+  --foreground: #f0ebe3;
+  --gold: #c9a227;
+  --gold-light: #e8d48b;
+  --crimson: #8b2942;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-noto-serif-jp), serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* 和紙テクスチャと雲文様の背景（少し明るく） */
+body {
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 50%, #1a1a2e 100%);
+  color: var(--foreground);
+  font-family: var(--font-noto-serif-jp), "Noto Serif JP", serif;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(ellipse 120px 70px at 15% 15%, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 180px 100px at 85% 25%, rgba(201, 162, 39, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 150px 80px at 50% 75%, rgba(201, 162, 39, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 200px 110px at 10% 85%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Leaflet コンテナ */
+.leaflet-container {
+  background: #f5f5f0;
+  font-family: var(--font-noto-serif-jp), "Noto Serif JP", serif;
+}
+
+.custom-marker,
+.custom-cluster {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* 黄金のpingアニメーション */
+@keyframes goldenPing {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(201, 162, 39, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 12px rgba(201, 162, 39, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(201, 162, 39, 0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.golden-ping {
+  animation: goldenPing 2s infinite;
+}
+
+/* 白い鳥居の輝き */
+@keyframes mysticGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(139, 41, 66, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(139, 41, 66, 0.6));
+  }
+}
+
+.mystic-glow {
+  animation: mysticGlow 3s ease-in-out infinite;
+}
+
+/* ツールチップ */
+.leaflet-tooltip {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(201, 162, 39, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  padding: 12px 16px;
+  font-family: var(--font-noto-serif-jp), "Noto Serif JP", serif;
+  color: #2d2d44;
+}
+
+.leaflet-tooltip::before {
+  border-top-color: rgba(255, 255, 255, 0.98);
+}
+
+/* ポップアップ */
+.leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  padding: 0;
+}
+
+.leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.leaflet-popup-content {
+  margin: 20px;
+  font-family: var(--font-noto-serif-jp), "Noto Serif JP", serif;
+  color: #2d2d44;
+}
+
+.leaflet-popup-close-button {
+  top: 16px !important;
+  right: 16px !important;
+  color: rgba(139, 41, 66, 0.6) !important;
+  font-size: 24px !important;
+}
+
+.leaflet-popup-close-button:hover {
+  color: #8b2942 !important;
+}
+
+/* Glassmorphism - 明るめ */
+.glass {
+  background: rgba(26, 26, 46, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(201, 162, 39, 0.2);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.glass-white {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(201, 162, 39, 0.2);
+}
+
+/* スクロールバー */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(26, 26, 46, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 162, 39, 0.4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 162, 39, 0.6);
+}
+
+/* 地図コントロール */
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: #666 !important;
+  font-size: 10px !important;
+  padding: 2px 8px !important;
+}
+
+.leaflet-control-attribution a {
+  color: #8b2942 !important;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  overflow: hidden;
+  border-radius: 12px !important;
+}
+
+.leaflet-control-zoom a {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #8b2942 !important;
+  border: none !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  font-size: 18px !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #fff !important;
+  color: #c9a227 !important;
+}
+
+/* クラスタースタイル */
+.marker-cluster-animated {
+  transition: all 0.3s ease-out;
+}
+
+/* スライドインアニメーション */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.slide-out-right {
+  animation: slideOutRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* フェードイン */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* 文字装飾 */
+.text-gold {
+  color: #c9a227;
+}
+
+.text-gold-light {
+  color: #e8d48b;
+}
+
+.text-crimson {
+  color: #8b2942;
+}
+
+.border-gold {
+  border-color: rgba(201, 162, 39, 0.3);
 }
