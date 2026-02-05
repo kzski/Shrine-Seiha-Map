@@ -101,13 +101,13 @@ export default function Sidebar({
       {/* Search */}
       <div className="relative p-4 border-b border-[#d4af37]/20">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#d4af37]/50" size={18} />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#d4af37]/50" size={20} />
           <input
             type="text"
             placeholder="神名・神社名で検索..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white/5 border border-[#d4af37]/20 rounded-lg py-2.5 pl-10 pr-4 text-sm text-[#e8e4d9] placeholder-[#a0a0a0]/50 focus:outline-none focus:border-[#d4af37]/50 focus:bg-white/10 transition-all"
+            className="w-full bg-white/5 border border-[#d4af37]/20 rounded-xl py-3.5 pl-12 pr-4 text-base text-[#e8e4d9] placeholder-[#a0a0a0]/50 focus:outline-none focus:border-[#d4af37]/50 focus:bg-white/10 transition-all"
           />
         </div>
       </div>
@@ -116,29 +116,29 @@ export default function Sidebar({
       <div className="relative border-b border-[#d4af37]/20">
         <button
           onClick={() => setShowCategoryFilter(!showCategoryFilter)}
-          className="w-full p-4 flex items-center justify-between text-[#e8e4d9] hover:bg-white/5 transition-colors"
+          className="w-full p-4 flex items-center justify-between text-[#e8e4d9] hover:bg-white/5 active:bg-white/10 transition-colors"
         >
-          <span className="flex items-center gap-2">
-            <Filter className="text-[#d4af37]" size={16} />
-            <span className="text-sm">カテゴリ</span>
+          <span className="flex items-center gap-3">
+            <Filter className="text-[#d4af37]" size={18} />
+            <span className="text-base">カテゴリ</span>
             {selectedCategory && (
-              <span className="text-xs bg-[#d4af37]/20 text-[#d4af37] px-2 py-0.5 rounded">
+              <span className="text-sm bg-[#d4af37]/20 text-[#d4af37] px-2.5 py-1 rounded-lg">
                 {selectedCategory}
               </span>
             )}
           </span>
           {showCategoryFilter ? (
-            <ChevronUp className="text-[#d4af37]" size={16} />
+            <ChevronUp className="text-[#d4af37]" size={20} />
           ) : (
-            <ChevronDown className="text-[#d4af37]" size={16} />
+            <ChevronDown className="text-[#d4af37]" size={20} />
           )}
         </button>
 
         {showCategoryFilter && (
-          <div className="px-4 pb-4 max-h-48 overflow-y-auto">
+          <div className="px-4 pb-4 max-h-64 overflow-y-auto">
             <button
               onClick={() => setSelectedCategory(null)}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm mb-1 transition-colors ${
+              className={`w-full text-left px-4 py-3 rounded-xl text-base mb-2 transition-colors active:scale-[0.98] ${
                 !selectedCategory
                   ? "bg-[#d4af37]/20 text-[#d4af37]"
                   : "text-[#a0a0a0] hover:bg-white/5"
@@ -152,14 +152,14 @@ export default function Sidebar({
                 <button
                   key={cat.name}
                   onClick={() => setSelectedCategory(cat.name)}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-sm mb-1 transition-colors flex justify-between ${
+                  className={`w-full text-left px-4 py-3 rounded-xl text-base mb-2 transition-colors flex justify-between active:scale-[0.98] ${
                     selectedCategory === cat.name
                       ? "bg-[#d4af37]/20 text-[#d4af37]"
                       : "text-[#a0a0a0] hover:bg-white/5"
                   }`}
                 >
                   <span>{cat.name}</span>
-                  <span className="text-xs opacity-70">
+                  <span className="text-sm opacity-70">
                     {cat.visited}/{cat.total}
                   </span>
                 </button>
@@ -170,7 +170,7 @@ export default function Sidebar({
 
       {/* Shrine List */}
       <div className="relative flex-1 overflow-y-auto">
-        <div className="p-4">
+        <div className="p-4 pb-20 lg:pb-4">
           <h2 className="text-xs text-[#d4af37]/50 uppercase tracking-widest mb-4">
             神々一覧（{filteredShrines.length}柱）
           </h2>
@@ -182,7 +182,7 @@ export default function Sidebar({
                 <li key={shrine.id}>
                   <button
                     onClick={() => onSelectShrine(shrine.id)}
-                    className={`w-full text-left p-3 rounded-xl transition-all ${
+                    className={`w-full text-left p-4 rounded-xl transition-all active:scale-[0.98] ${
                       isSelected
                         ? "bg-[#d4af37]/20 border border-[#d4af37]/50 shadow-lg shadow-[#d4af37]/10"
                         : visited
@@ -190,29 +190,29 @@ export default function Sidebar({
                         : "bg-white/5 border border-white/10 hover:bg-white/10"
                     }`}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       <div
-                        className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-lg ${
+                        className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-xl ${
                           visited
                             ? "bg-[#d4af37]/20 border border-[#d4af37]/50"
                             : "bg-white/5 border border-white/20"
                         }`}
                       >
                         {visited ? (
-                          <CheckCircle2 className="text-[#d4af37]" size={20} />
+                          <CheckCircle2 className="text-[#d4af37]" size={22} />
                         ) : (
                           getDeitySymbol(shrine.category, shrine.id)
                         )}
                       </div>
                       <div className="min-w-0 flex-1">
                         <p
-                          className={`font-medium truncate ${
+                          className={`font-medium truncate text-base ${
                             visited ? "text-[#d4af37]" : "text-[#e8e4d9]"
                           }`}
                         >
                           {shrine.deity}
                         </p>
-                        <p className="text-xs text-[#a0a0a0] truncate">{shrine.name}</p>
+                        <p className="text-sm text-[#a0a0a0] truncate">{shrine.name}</p>
                       </div>
                     </div>
                   </button>

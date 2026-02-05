@@ -207,7 +207,7 @@ body::before {
   transition: all 0.3s ease-out;
 }
 
-/* スライドインアニメーション */
+/* スライドインアニメーション - 右から */
 @keyframes slideInRight {
   from {
     transform: translateX(100%);
@@ -236,6 +236,84 @@ body::before {
 
 .slide-out-right {
   animation: slideOutRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* スライドインアニメーション - 左から */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.slide-out-left {
+  animation: slideOutLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* スライドインアニメーション - 下から（モバイル詳細パネル用） */
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.slide-in-up {
+  animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.slide-out-down {
+  animation: slideOutDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* タッチデバイス用のタップハイライト無効化 */
+@media (pointer: coarse) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button, a {
+    touch-action: manipulation;
+  }
+}
+
+/* セーフエリア対応（ノッチ付きデバイス） */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0);
 }
 
 /* フェードイン */
