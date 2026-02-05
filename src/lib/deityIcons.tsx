@@ -29,6 +29,34 @@ export function getDeitySymbol(category: string, deityId: string): string {
     ukanomitama: "🌾",
     toyoukehime: "🍚",
     sarutahiko: "🛤️",
+    // 新規追加
+    amenooshihomimi: "🌤️",
+    takuhadachijihime: "🧵",
+    kushinadahime: "🌺",
+    hosuseri: "🔥",
+    kuninotokotachi: "🌍",
+    umashiashikabihikoji: "🌱",
+    jinguukougou: "⚔️",
+    yamatohime: "👸",
+    kumanogongen: "🏔️",
+    kumanofusumi: "💧",
+    hieyama: "🗻",
+    ootoshi: "🌾",
+    inari: "🦊",
+    kanayamabiko: "⚒️",
+    takeiwatatsu: "🐉",
+    seoritsu: "💦",
+    amatsumikaboshi: "⭐",
+    kunado: "🚧",
+    shiotsuchiooji: "🧂",
+    takemikazuchiwake: "⚡",
+    mitoshikami: "🌾",
+    tagorihime: "🌊",
+    tagitsuhime: "🌊",
+    ichikishimahime: "🏝️",
+    sokotsutsunoo: "🌊",
+    nakatsutsunoo: "⚓",
+    uwatsutsunoo: "🚢",
   };
 
   if (specificSymbols[deityId]) {
@@ -61,6 +89,10 @@ export function getDeitySymbol(category: string, deityId: string): string {
     弁財天: "🎵",
     恵比寿: "🐟",
     大物主: "🐍",
+    熊野: "🏔️",
+    山岳信仰: "⛰️",
+    星神: "⭐",
+    道祖神: "🚧",
   };
 
   return categorySymbols[category] || "⛩️";
@@ -106,7 +138,16 @@ export function DeityIcon({
     大物主: { bg: "#d1d5db", border: "#4b5563" },
   };
 
-  const colors = categoryColors[category] || { bg: "#f3f4f6", border: "#9ca3af" };
+  // 新規カテゴリの色を追加
+  const extendedCategoryColors: Record<string, { bg: string; border: string }> = {
+    ...categoryColors,
+    熊野: { bg: "#d1fae5", border: "#059669" },
+    山岳信仰: { bg: "#e0f2fe", border: "#0284c7" },
+    星神: { bg: "#ddd6fe", border: "#7c3aed" },
+    道祖神: { bg: "#fef3c7", border: "#d97706" },
+  };
+
+  const colors = extendedCategoryColors[category] || { bg: "#f3f4f6", border: "#9ca3af" };
 
   return (
     <div

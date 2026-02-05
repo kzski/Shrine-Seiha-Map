@@ -1,3 +1,11 @@
+export interface DeityRelations {
+  father?: string;      // 父神ID
+  mother?: string;      // 母神ID
+  spouse?: string[];    // 配偶者ID（複数可）
+  children?: string[];  // 子神ID
+  siblings?: string[];  // 兄弟姉妹ID
+}
+
 export interface Shrine {
   id: string;
   deity: string;
@@ -10,6 +18,7 @@ export interface Shrine {
   mythology: string;
   blessing: string;
   category: string;
+  relations?: DeityRelations;
 }
 
 export const shrines: Shrine[] = [
@@ -67,6 +76,10 @@ export const shrines: Shrine[] = [
     mythology: "伊邪那美と共に天の浮橋に立ち、矛で海をかき混ぜ淤能碁呂島を作った。",
     blessing: "夫婦円満、縁結び、厄除け",
     category: "神世七代",
+    relations: {
+      spouse: ["izanami"],
+      children: ["amaterasu", "tsukuyomi", "susanoo", "kagutsuchi", "ebisu", "oyamatsumi", "watatsumi", "shinatsuhiko"],
+    },
   },
   {
     id: "izanami",
@@ -80,6 +93,10 @@ export const shrines: Shrine[] = [
     mythology: "火之迦具土神を生んだ際に火傷を負い、黄泉国へ旅立った。",
     blessing: "子授け、安産、縁結び",
     category: "神世七代",
+    relations: {
+      spouse: ["izanagi"],
+      children: ["amaterasu", "tsukuyomi", "susanoo", "kagutsuchi", "ebisu", "oyamatsumi", "watatsumi", "shinatsuhiko"],
+    },
   },
 
   // === 三貴子 ===
@@ -95,6 +112,11 @@ export const shrines: Shrine[] = [
     mythology: "伊邪那岐の左目から生まれた。弟・須佐之男の乱暴に天岩戸に隠れ、世界は闇に包まれた。",
     blessing: "国家安泰、開運、所願成就",
     category: "三貴子",
+    relations: {
+      father: "izanagi",
+      siblings: ["tsukuyomi", "susanoo"],
+      children: ["amenooshihomimi", "amenohohi"],
+    },
   },
   {
     id: "tsukuyomi",
@@ -108,6 +130,10 @@ export const shrines: Shrine[] = [
     mythology: "伊邪那岐の右目から生まれた。夜の食国を治めるよう命じられた。",
     blessing: "航海安全、漁業繁栄、月のリズム",
     category: "三貴子",
+    relations: {
+      father: "izanagi",
+      siblings: ["amaterasu", "susanoo"],
+    },
   },
   {
     id: "susanoo",
@@ -121,6 +147,12 @@ export const shrines: Shrine[] = [
     mythology: "伊邪那岐の鼻から生まれた。高天原で乱暴を働き追放された後、出雲でヤマタノオロチを退治。",
     blessing: "厄除け、疫病退散、縁結び",
     category: "三貴子",
+    relations: {
+      father: "izanagi",
+      siblings: ["amaterasu", "tsukuyomi"],
+      spouse: ["kushinadahime"],
+      children: ["suseribime", "ukanomitama"],
+    },
   },
 
   // === 天岩戸神話の神々 ===
@@ -136,6 +168,9 @@ export const shrines: Shrine[] = [
     mythology: "天岩戸に隠れた天照大御神を誘い出すため、神懸かりの舞を踊り八百万の神を笑わせた。",
     blessing: "芸能上達、縁結び、鎮魂",
     category: "天岩戸",
+    relations: {
+      spouse: ["sarutahiko"],
+    },
   },
   {
     id: "amenotajikarao",
@@ -229,6 +264,10 @@ export const shrines: Shrine[] = [
     mythology: "兄神たちの迫害を乗り越え、少彦名神と共に国造りを行った。国譲りで幽世の王となった。",
     blessing: "縁結び、商売繁盛、病気平癒",
     category: "出雲神話",
+    relations: {
+      spouse: ["suseribime", "yagamihime"],
+      children: ["kotoshironushi", "takeminakata"],
+    },
   },
   {
     id: "sukunabikona",
@@ -242,6 +281,9 @@ export const shrines: Shrine[] = [
     mythology: "海の彼方から来た小さな神。大国主と共に国造りを行い、医薬・温泉の知識を伝えた。",
     blessing: "病気平癒、医薬、酒造繁栄",
     category: "出雲神話",
+    relations: {
+      father: "kamimusubi",
+    },
   },
   {
     id: "kotoshironushi",
@@ -255,6 +297,10 @@ export const shrines: Shrine[] = [
     mythology: "大国主の息子。国譲りの際、父に代わって承諾した。恵比須神と同一視される。",
     blessing: "商売繁盛、大漁満足",
     category: "出雲神話",
+    relations: {
+      father: "okuninushi",
+      siblings: ["takeminakata"],
+    },
   },
   {
     id: "takeminakata",
@@ -268,6 +314,10 @@ export const shrines: Shrine[] = [
     mythology: "大国主の息子。国譲りに抵抗し建御雷神と力比べをしたが敗れ、諏訪に逃れた。",
     blessing: "武運長久、勝負運、風鎮め",
     category: "出雲神話",
+    relations: {
+      father: "okuninushi",
+      siblings: ["kotoshironushi"],
+    },
   },
   {
     id: "yagamihime",
@@ -281,6 +331,9 @@ export const shrines: Shrine[] = [
     mythology: "因幡の白兎神話で大国主と出会い、結ばれた。",
     blessing: "縁結び、子宝",
     category: "出雲神話",
+    relations: {
+      spouse: ["okuninushi"],
+    },
   },
   {
     id: "suseribime",
@@ -294,6 +347,10 @@ export const shrines: Shrine[] = [
     mythology: "根の国で大国主と出会い、父の試練を乗り越える手助けをした。",
     blessing: "縁結び、夫婦円満",
     category: "出雲神話",
+    relations: {
+      father: "susanoo",
+      spouse: ["okuninushi"],
+    },
   },
   {
     id: "inaba_usagi",
@@ -322,6 +379,12 @@ export const shrines: Shrine[] = [
     mythology: "三種の神器を授かり、高千穂峰に降臨。木花咲耶姫と結婚した。",
     blessing: "国家安泰、五穀豊穣",
     category: "天孫降臨",
+    relations: {
+      father: "amenooshihomimi",
+      mother: "takuhadachijihime",
+      spouse: ["konohanasakuya"],
+      children: ["hoderi", "hoori", "hosuseri"],
+    },
   },
   {
     id: "sarutahiko",
@@ -335,6 +398,9 @@ export const shrines: Shrine[] = [
     mythology: "天孫降臨の際、高千穂への道案内を務めた。天宇受賣命と結婚。",
     blessing: "道開き、交通安全、方位除け",
     category: "天孫降臨",
+    relations: {
+      spouse: ["amenouzume"],
+    },
   },
   {
     id: "konohanasakuya",
@@ -348,6 +414,12 @@ export const shrines: Shrine[] = [
     mythology: "邇邇芸命と結婚。一夜で懐妊したことを疑われ、火中出産で潔白を証明した。",
     blessing: "安産、子育て、火難除け",
     category: "天孫降臨",
+    relations: {
+      father: "oyamatsumi",
+      siblings: ["iwanagahime"],
+      spouse: ["ninigi"],
+      children: ["hoderi", "hoori", "hosuseri"],
+    },
   },
   {
     id: "iwanagahime",
@@ -361,6 +433,10 @@ export const shrines: Shrine[] = [
     mythology: "邇邇芸命に断られたため、人間は短命になったという。",
     blessing: "長寿、延命",
     category: "天孫降臨",
+    relations: {
+      father: "oyamatsumi",
+      siblings: ["konohanasakuya"],
+    },
   },
   {
     id: "oyamatsumi",
@@ -374,6 +450,11 @@ export const shrines: Shrine[] = [
     mythology: "伊邪那岐・伊邪那美の子で山を司る。娘二人を邇邇芸命に嫁がせた。",
     blessing: "山林守護、鉱業、漁業",
     category: "天孫降臨",
+    relations: {
+      father: "izanagi",
+      mother: "izanami",
+      children: ["konohanasakuya", "iwanagahime"],
+    },
   },
 
   // === 海幸・山幸神話 ===
@@ -389,6 +470,11 @@ export const shrines: Shrine[] = [
     mythology: "弟・山幸彦と釣り針を巡って争い、最終的に弟に服従した。隼人の祖とされる。",
     blessing: "漁業繁栄、航海安全",
     category: "海幸山幸",
+    relations: {
+      father: "ninigi",
+      mother: "konohanasakuya",
+      siblings: ["hoori", "hosuseri"],
+    },
   },
   {
     id: "hoori",
@@ -402,6 +488,13 @@ export const shrines: Shrine[] = [
     mythology: "兄の釣り針を探して海神の宮へ行き、豊玉姫と結婚。潮満珠・潮干珠を得た。",
     blessing: "畜産、狩猟、縁結び",
     category: "海幸山幸",
+    relations: {
+      father: "ninigi",
+      mother: "konohanasakuya",
+      siblings: ["hoderi", "hosuseri"],
+      spouse: ["toyotamahime"],
+      children: ["ugayafukiaezu"],
+    },
   },
   {
     id: "toyotamahime",
@@ -415,6 +508,12 @@ export const shrines: Shrine[] = [
     mythology: "山幸彦と結婚。出産の姿を見られ、恥じて海に帰った。",
     blessing: "安産、漁業、航海安全",
     category: "海幸山幸",
+    relations: {
+      father: "watatsumi",
+      siblings: ["tamayoribime"],
+      spouse: ["hoori"],
+      children: ["ugayafukiaezu"],
+    },
   },
   {
     id: "tamayoribime",
@@ -428,6 +527,12 @@ export const shrines: Shrine[] = [
     mythology: "姉の代わりに甥（ウガヤフキアエズ）を育て、後に結婚して神武天皇を生んだ。",
     blessing: "縁結び、子育て、安産",
     category: "海幸山幸",
+    relations: {
+      father: "watatsumi",
+      siblings: ["toyotamahime"],
+      spouse: ["ugayafukiaezu"],
+      children: ["jimmu"],
+    },
   },
   {
     id: "ugayafukiaezu",
@@ -441,6 +546,12 @@ export const shrines: Shrine[] = [
     mythology: "海辺の洞窟で生まれた。屋根を葺き終わる前に生まれたことから名がついた。",
     blessing: "安産、育児、縁結び",
     category: "海幸山幸",
+    relations: {
+      father: "hoori",
+      mother: "toyotamahime",
+      spouse: ["tamayoribime"],
+      children: ["jimmu"],
+    },
   },
   {
     id: "watatsumi",
@@ -454,6 +565,10 @@ export const shrines: Shrine[] = [
     mythology: "伊邪那岐の禊で生まれた海神。山幸彦を歓待し、娘を嫁がせた。",
     blessing: "航海安全、漁業繁栄",
     category: "海幸山幸",
+    relations: {
+      father: "izanagi",
+      children: ["toyotamahime", "tamayoribime"],
+    },
   },
 
   // === 国譲りの神々 ===
@@ -691,6 +806,10 @@ export const shrines: Shrine[] = [
     mythology: "天照大御神の子孫。日向を出発し、大和で初代天皇として即位した。",
     blessing: "開運、勝運、建国",
     category: "神武東征",
+    relations: {
+      father: "ugayafukiaezu",
+      mother: "tamayoribime",
+    },
   },
   {
     id: "yatagarasu",
@@ -865,6 +984,487 @@ export const shrines: Shrine[] = [
     blessing: "病気平癒、醸造、縁結び",
     category: "大物主",
   },
+
+  // === 新規追加の神々 ===
+
+  // 天孫系譜補完
+  {
+    id: "amenooshihomimi",
+    deity: "天忍穂耳命",
+    deityReading: "アメノオシホミミノミコト",
+    name: "英彦山神宮",
+    location: "福岡県田川郡添田町",
+    lat: 33.4764,
+    lng: 130.9278,
+    description: "天照大御神の子。邇邇芸命の父。",
+    mythology: "天照大御神と須佐之男命の誓約で生まれた。葦原中国平定を命じられたが辞退し、息子の邇邇芸命を降臨させた。",
+    blessing: "勝運、開運、農業繁栄",
+    category: "天孫降臨",
+    relations: {
+      mother: "amaterasu",
+      spouse: ["takuhadachijihime"],
+      children: ["ninigi"],
+    },
+  },
+  {
+    id: "takuhadachijihime",
+    deity: "栲幡千千姫命",
+    deityReading: "タクハタチジヒメノミコト",
+    name: "機物神社",
+    location: "大阪府交野市",
+    lat: 34.7856,
+    lng: 135.6708,
+    description: "機織りの女神。邇邇芸命の母。",
+    mythology: "高皇産霊尊の娘で、天忍穂耳命の妃となった。織物の技術を司る。",
+    blessing: "織物、裁縫上達、良縁",
+    category: "天孫降臨",
+    relations: {
+      father: "takamimusubi",
+      spouse: ["amenooshihomimi"],
+      children: ["ninigi"],
+    },
+  },
+
+  // 出雲神話補完
+  {
+    id: "kushinadahime",
+    deity: "櫛名田比売",
+    deityReading: "クシナダヒメ",
+    name: "八重垣神社",
+    location: "島根県松江市",
+    lat: 35.4322,
+    lng: 133.1058,
+    description: "須佐之男命の妻。ヤマタノオロチの生贄から救われた。",
+    mythology: "ヤマタノオロチに捧げられる予定だったが、須佐之男命に救われ妻となった。",
+    blessing: "縁結び、夫婦円満、災難除け",
+    category: "出雲神話",
+    relations: {
+      spouse: ["susanoo"],
+      children: ["suseribime"],
+    },
+  },
+
+  // 海幸山幸補完
+  {
+    id: "hosuseri",
+    deity: "火須勢理命",
+    deityReading: "ホスセリノミコト",
+    name: "霧島東神社",
+    location: "宮崎県西諸県郡高原町",
+    lat: 31.9133,
+    lng: 131.0292,
+    description: "邇邇芸命の子。火照命・火遠理命の兄弟。",
+    mythology: "邇邇芸命と木花咲耶姫の間に生まれた三兄弟の一柱。神話での記述は少ない。",
+    blessing: "家内安全、繁栄",
+    category: "海幸山幸",
+    relations: {
+      father: "ninigi",
+      mother: "konohanasakuya",
+      siblings: ["hoderi", "hoori"],
+    },
+  },
+
+  // 造化三神補完
+  {
+    id: "kuninotokotachi",
+    deity: "国之常立神",
+    deityReading: "クニノトコタチノカミ",
+    name: "玉置神社",
+    location: "奈良県吉野郡十津川村",
+    lat: 33.8558,
+    lng: 135.8681,
+    description: "国土の永遠性を象徴する神。神世七代の最初の神。",
+    mythology: "天地開闢の後、葦原に国土が形成される際に現れた。独神として身を隠した。",
+    blessing: "国土安泰、開運、心願成就",
+    category: "神世七代",
+  },
+  {
+    id: "umashiashikabihikoji",
+    deity: "宇摩志阿斯訶備比古遅神",
+    deityReading: "ウマシアシカビヒコヂノカミ",
+    name: "物部神社",
+    location: "島根県大田市",
+    lat: 35.2056,
+    lng: 132.4728,
+    description: "生命力の神。別天津神の一柱。",
+    mythology: "天地開闘の最初期、活力ある生命の兆しとして現れた神。",
+    blessing: "生命力、活力向上",
+    category: "造化三神",
+  },
+
+  // 八幡神関連
+  {
+    id: "jinguukougou",
+    deity: "神功皇后",
+    deityReading: "ジングウコウゴウ",
+    name: "香椎宮",
+    location: "福岡県福岡市",
+    lat: 33.6567,
+    lng: 130.4531,
+    description: "応神天皇の母。三韓征伐を行った伝説の女傑。",
+    mythology: "身重の身で三韓征伐を行い、帰国後に応神天皇を産んだ。武内宿禰が補佐した。",
+    blessing: "安産、勝運、国家安泰",
+    category: "八幡神",
+    relations: {
+      children: ["hachiman"],
+    },
+  },
+
+  // 伊勢関連
+  {
+    id: "yamatohime",
+    deity: "倭姫命",
+    deityReading: "ヤマトヒメノミコト",
+    name: "倭姫宮",
+    location: "三重県伊勢市",
+    lat: 34.4622,
+    lng: 136.7247,
+    description: "第11代垂仁天皇の皇女。伊勢神宮を創建。",
+    mythology: "天照大御神の御杖代として諸国を巡り、伊勢の地に神宮を定めた。",
+    blessing: "心願成就、導き、旅行安全",
+    category: "三貴子",
+  },
+
+  // 熊野関連
+  {
+    id: "kumanogongen",
+    deity: "熊野権現",
+    deityReading: "クマノゴンゲン",
+    name: "熊野速玉大社",
+    location: "和歌山県新宮市",
+    lat: 33.7283,
+    lng: 135.9894,
+    description: "熊野三山の神。修験道の聖地。",
+    mythology: "伊邪那岐命・伊邪那美命とも同一視される。熊野三山を守護する。",
+    blessing: "蘇り、再生、厄除け",
+    category: "熊野",
+  },
+  {
+    id: "kumanofusumi",
+    deity: "熊野夫須美大神",
+    deityReading: "クマノフスミノオオカミ",
+    name: "熊野那智大社",
+    location: "和歌山県東牟婁郡那智勝浦町",
+    lat: 33.6708,
+    lng: 135.8875,
+    description: "熊野三山の神。那智の滝を御神体とする。",
+    mythology: "伊邪那美命の別名とも。結びの神として信仰される。",
+    blessing: "縁結び、願望成就、延命",
+    category: "熊野",
+  },
+
+  // 山岳信仰
+  {
+    id: "hieyama",
+    deity: "大山咋神",
+    deityReading: "オオヤマクイノカミ",
+    name: "日吉大社",
+    location: "滋賀県大津市",
+    lat: 35.0706,
+    lng: 135.8686,
+    description: "比叡山の地主神。山王権現とも。",
+    mythology: "大年神の子。比叡山に鎮座し、延暦寺の守護神となった。",
+    blessing: "方除け、厄除け、縁結び",
+    category: "山岳信仰",
+    relations: {
+      father: "ootoshi",
+    },
+  },
+  {
+    id: "konohanasakuyahikosawa",
+    deity: "木花之佐久夜毘古",
+    deityReading: "コノハナノサクヤビコ",
+    name: "浅間神社 (山梨)",
+    location: "山梨県笛吹市",
+    lat: 35.6417,
+    lng: 138.6439,
+    description: "山の神。木花咲耶姫と対になる男神。",
+    mythology: "山々の花々を司る。富士山周辺で祀られる。",
+    blessing: "山林守護、開運",
+    category: "山岳信仰",
+  },
+
+  // 食物神追加
+  {
+    id: "ootoshi",
+    deity: "大年神",
+    deityReading: "オオトシノカミ",
+    name: "大歳神社",
+    location: "兵庫県神戸市",
+    lat: 34.6911,
+    lng: 135.1528,
+    description: "年穀の神。稲の実りを司る。",
+    mythology: "須佐之男命と神大市比売の子。年神信仰の中心的存在。",
+    blessing: "五穀豊穣、商売繁盛",
+    category: "食物神",
+    relations: {
+      father: "susanoo",
+      children: ["hieyama"],
+    },
+  },
+  {
+    id: "inari",
+    deity: "稲荷大神",
+    deityReading: "イナリオオカミ",
+    name: "笠間稲荷神社",
+    location: "茨城県笠間市",
+    lat: 36.3836,
+    lng: 140.2547,
+    description: "稲の神。農業・商業の守護神。",
+    mythology: "宇迦之御魂神と同一視される。狐を神使とする。",
+    blessing: "五穀豊穣、商売繁盛、家内安全",
+    category: "食物神",
+  },
+
+  // 技術・職業の神
+  {
+    id: "kanayamabiko",
+    deity: "金山彦神",
+    deityReading: "カナヤマビコノカミ",
+    name: "金山神社",
+    location: "岐阜県不破郡垂井町",
+    lat: 35.3736,
+    lng: 136.5275,
+    description: "鉱山・金属の神。鍛冶の守護神。",
+    mythology: "伊邪那美命が火傷を負った際の嘔吐物から生まれた。",
+    blessing: "金属加工、鉱業、金運",
+    category: "鍛冶神",
+    relations: {
+      mother: "izanami",
+    },
+  },
+
+  // 芸能・文化の神
+  {
+    id: "sukunahikona_another",
+    deity: "薬祖神",
+    deityReading: "ヤクソシン",
+    name: "神田明神",
+    location: "東京都千代田区",
+    lat: 35.7019,
+    lng: 139.7681,
+    description: "医薬の神。少彦名神の別称。",
+    mythology: "大国主命と共に国造りを行い、医薬の道を開いた。",
+    blessing: "病気平癒、健康長寿、医療関係者守護",
+    category: "出雲神話",
+  },
+
+  // 武神追加
+  {
+    id: "takeiwatatsu",
+    deity: "建磐龍命",
+    deityReading: "タケイワタツノミコト",
+    name: "阿蘇神社",
+    location: "熊本県阿蘇市",
+    lat: 32.9483,
+    lng: 131.1225,
+    description: "阿蘇開拓の祖神。神武天皇の孫。",
+    mythology: "神武天皇の孫として阿蘇地方を開拓した。健磐龍命とも。",
+    blessing: "開拓、五穀豊穣、厄除け",
+    category: "神武東征",
+    relations: {
+      father: "jimmu",
+    },
+  },
+
+  // 水神追加
+  {
+    id: "seoritsu",
+    deity: "瀬織津姫",
+    deityReading: "セオリツヒメ",
+    name: "瀬織津姫神社",
+    location: "岩手県遠野市",
+    lat: 39.3375,
+    lng: 141.5389,
+    description: "祓いの女神。川の流れで罪を洗い流す。",
+    mythology: "大祓詞に登場する四柱の祓戸大神の一柱。",
+    blessing: "罪穢祓い、水難除け、心身浄化",
+    category: "水の神",
+  },
+
+  // 星神
+  {
+    id: "amatsumikaboshi",
+    deity: "天津甕星",
+    deityReading: "アマツミカボシ",
+    name: "大甕神社",
+    location: "茨城県日立市",
+    lat: 36.5731,
+    lng: 140.6483,
+    description: "星の神。天津神に従わなかった唯一の神。",
+    mythology: "天孫降臨前、高天原に従わず最後まで抵抗した星の神。",
+    blessing: "厄除け、方位除け、開運",
+    category: "星神",
+  },
+
+  // 道祖神・境界の神
+  {
+    id: "kunado",
+    deity: "岐神",
+    deityReading: "クナドノカミ",
+    name: "道祖神社",
+    location: "京都府京都市",
+    lat: 34.9889,
+    lng: 135.7597,
+    description: "道の分岐点を守る神。悪霊の侵入を防ぐ。",
+    mythology: "伊邪那岐命が黄泉国から戻る際に現れた神。",
+    blessing: "旅行安全、災難除け、縁結び",
+    category: "道祖神",
+  },
+
+  // 海神追加
+  {
+    id: "shiotsuchiooji",
+    deity: "塩椎神",
+    deityReading: "シオツチノオジ",
+    name: "鹽竈神社",
+    location: "宮城県塩竈市",
+    lat: 38.3192,
+    lng: 141.0203,
+    description: "潮の神。製塩技術を伝えた。",
+    mythology: "山幸彦を海神の宮へ導いた老神。塩土老翁とも。",
+    blessing: "航海安全、製塩、延命長寿",
+    category: "海幸山幸",
+  },
+
+  // 雷神追加
+  {
+    id: "takemikazuchiwake",
+    deity: "武甕槌命",
+    deityReading: "タケミカヅチノミコト",
+    name: "武蔵一宮氷川神社",
+    location: "埼玉県さいたま市",
+    lat: 35.9094,
+    lng: 139.6294,
+    description: "雷と武の神。関東の総鎮守。",
+    mythology: "国譲りで活躍した武神。関東で広く祀られる。",
+    blessing: "武運、勝運、厄除け",
+    category: "国譲り",
+  },
+
+  // 農業神追加
+  {
+    id: "mitoshikami",
+    deity: "御歳神",
+    deityReading: "ミトシノカミ",
+    name: "葛木御歳神社",
+    location: "奈良県御所市",
+    lat: 34.4344,
+    lng: 135.7428,
+    description: "穀物の神。大年神の子。",
+    mythology: "正月に迎える年神の一柱。穀物の豊作を司る。",
+    blessing: "五穀豊穣、家内安全",
+    category: "食物神",
+    relations: {
+      father: "ootoshi",
+    },
+  },
+
+  // 宗像三女神個別
+  {
+    id: "tagorihime",
+    deity: "田心姫神",
+    deityReading: "タゴリヒメノカミ",
+    name: "宗像大社 沖津宮",
+    location: "福岡県宗像市（沖ノ島）",
+    lat: 34.2428,
+    lng: 130.1047,
+    description: "宗像三女神の一柱。沖ノ島に鎮座。",
+    mythology: "天照大御神と須佐之男命の誓約で生まれた。海上交通を守護する。",
+    blessing: "海上安全、交通安全",
+    category: "宗像神",
+    relations: {
+      mother: "amaterasu",
+      siblings: ["tagitsuhime", "ichikishimahime"],
+    },
+  },
+  {
+    id: "tagitsuhime",
+    deity: "湍津姫神",
+    deityReading: "タギツヒメノカミ",
+    name: "宗像大社 中津宮",
+    location: "福岡県宗像市（大島）",
+    lat: 33.9019,
+    lng: 130.4383,
+    description: "宗像三女神の一柱。大島に鎮座。",
+    mythology: "天照大御神と須佐之男命の誓約で生まれた。",
+    blessing: "海上安全、芸能上達",
+    category: "宗像神",
+    relations: {
+      mother: "amaterasu",
+      siblings: ["tagorihime", "ichikishimahime"],
+    },
+  },
+  {
+    id: "ichikishimahime",
+    deity: "市杵島姫神",
+    deityReading: "イチキシマヒメノカミ",
+    name: "厳島神社",
+    location: "広島県廿日市市",
+    lat: 34.2961,
+    lng: 132.3197,
+    description: "宗像三女神の一柱。芸能・財運の女神。",
+    mythology: "弁財天と習合し、芸能・財福の神として信仰される。",
+    blessing: "芸能上達、財運、交通安全",
+    category: "宗像神",
+    relations: {
+      mother: "amaterasu",
+      siblings: ["tagorihime", "tagitsuhime"],
+    },
+  },
+
+  // 住吉三神個別
+  {
+    id: "sokotsutsunoo",
+    deity: "底筒男命",
+    deityReading: "ソコツツノオノミコト",
+    name: "住吉神社 (下関)",
+    location: "山口県下関市",
+    lat: 33.9592,
+    lng: 130.9411,
+    description: "住吉三神の一柱。海底を司る。",
+    mythology: "伊邪那岐命の禊で海底から生まれた。",
+    blessing: "航海安全、産業振興",
+    category: "住吉神",
+    relations: {
+      father: "izanagi",
+      siblings: ["nakatsutsunoo", "uwatsutsunoo"],
+    },
+  },
+  {
+    id: "nakatsutsunoo",
+    deity: "中筒男命",
+    deityReading: "ナカツツノオノミコト",
+    name: "住吉神社 (福岡)",
+    location: "福岡県福岡市",
+    lat: 33.5894,
+    lng: 130.3533,
+    description: "住吉三神の一柱。海中を司る。",
+    mythology: "伊邪那岐命の禊で海中から生まれた。",
+    blessing: "航海安全、漁業繁栄",
+    category: "住吉神",
+    relations: {
+      father: "izanagi",
+      siblings: ["sokotsutsunoo", "uwatsutsunoo"],
+    },
+  },
+  {
+    id: "uwatsutsunoo",
+    deity: "表筒男命",
+    deityReading: "ウワツツノオノミコト",
+    name: "住吉神社 (長門)",
+    location: "山口県下関市",
+    lat: 33.9617,
+    lng: 130.9425,
+    description: "住吉三神の一柱。海面を司る。",
+    mythology: "伊邪那岐命の禊で海面から生まれた。",
+    blessing: "航海安全、和歌上達",
+    category: "住吉神",
+    relations: {
+      father: "izanagi",
+      siblings: ["sokotsutsunoo", "nakatsutsunoo"],
+    },
+  },
 ];
 
 // カテゴリ一覧
@@ -893,4 +1493,8 @@ export const categories = [
   "弁財天",
   "恵比寿",
   "大物主",
+  "熊野",
+  "山岳信仰",
+  "星神",
+  "道祖神",
 ];

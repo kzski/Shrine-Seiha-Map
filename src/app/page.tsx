@@ -6,7 +6,8 @@ import { db } from "@/lib/db";
 import { shrines } from "@/lib/shrines";
 import Sidebar from "@/components/Sidebar";
 import DeityDetailPanel from "@/components/DeityDetailPanel";
-import { Loader2, Menu, X, List, MapIcon } from "lucide-react";
+import GenealogySection from "@/components/GenealogySection";
+import { Loader2, Menu, X, List, MapIcon, Users } from "lucide-react";
 
 const ShrineMap = dynamic(() => import("@/components/ShrineMap"), {
   ssr: false,
@@ -29,7 +30,7 @@ export default function Home() {
   const [isMobileSidebarClosing, setIsMobileSidebarClosing] = useState(false);
   const [showDetailPanel, setShowDetailPanel] = useState(false);
   const [isDetailPanelClosing, setIsDetailPanelClosing] = useState(false);
-  const [mobileView, setMobileView] = useState<"map" | "list">("map");
+  const [mobileView, setMobileView] = useState<"map" | "list" | "genealogy">("map");
 
   useEffect(() => {
     loadVisits();
@@ -65,11 +66,24 @@ export default function Home() {
       closeMobileSidebar();
       setIsDetailPanelClosing(false);
       setShowDetailPanel(true);
-      // モバイルでリスト表示中なら地図に切り替え
-      if (mobileView === "list") {
+      // モバイルでリスト・系譜表示中なら地図に切り替え
+      if (mobileView === "list" || mobileView === "genealogy") {
         setMobileView("map");
       }
     }
+  }
+
+  function handleNavigateToDeity(deityId: string) {
+    // 詳細パネルを閉じてから新しい神を選択
+    setIsDetailPanelClosing(true);
+    setTimeout(() => {
+      setShowDetailPanel(false);
+      setIsDetailPanelClosing(false);
+      // 少し遅延させて新しい神を選択
+      setTimeout(() => {
+        handleSelectShrine(deityId);
+      }, 100);
+    }, 200);
   }
 
   function closeMobileSidebar() {
@@ -239,6 +253,19 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Mobile Genealogy View */}
+          <div
+            className={`absolute inset-0 lg:hidden ${
+              mobileView === "genealogy" ? "block" : "hidden"
+            }`}
+          >
+            <GenealogySection
+              shrines={shrines}
+              visitedIds={visitedIds}
+              onSelectDeity={handleSelectShrine}
+            />
+          </div>
+
           {/* Desktop Legend */}
           <div className="absolute bottom-4 left-4 glass rounded-xl p-4 shadow-lg z-[1000] hidden lg:block">
             <div className="flex flex-col gap-3">
@@ -282,7 +309,7 @@ export default function Home() {
                     : "text-[#a0a0a0] active:text-[#d4af37]/70"
                 }`}
               >
-                <MapIcon size={22} />
+                <MapIcon size={20} />
                 <span className="text-xs mt-1">地図</span>
               </button>
               <button
@@ -293,14 +320,25 @@ export default function Home() {
                     : "text-[#a0a0a0] active:text-[#d4af37]/70"
                 }`}
               >
-                <List size={22} />
+                <List size={20} />
                 <span className="text-xs mt-1">一覧</span>
+              </button>
+              <button
+                onClick={() => setMobileView("genealogy")}
+                className={`flex-1 flex flex-col items-center py-3 transition-colors ${
+                  mobileView === "genealogy"
+                    ? "text-[#d4af37]"
+                    : "text-[#a0a0a0] active:text-[#d4af37]/70"
+                }`}
+              >
+                <Users size={20} />
+                <span className="text-xs mt-1">系譜</span>
               </button>
               <button
                 onClick={() => setShowMobileSidebar(true)}
                 className="flex-1 flex flex-col items-center py-3 text-[#a0a0a0] active:text-[#d4af37]/70 transition-colors"
               >
-                <Menu size={22} />
+                <Menu size={20} />
                 <span className="text-xs mt-1">メニュー</span>
               </button>
             </div>
@@ -322,6 +360,8 @@ export default function Home() {
             onVisit={() => handleVisit(selectedShrineData.id)}
             onClose={handleCloseDetailPanel}
             isClosing={isDetailPanelClosing}
+            allShrines={shrines}
+            onNavigateToDeity={handleNavigateToDeity}
           />
         </>
       )}

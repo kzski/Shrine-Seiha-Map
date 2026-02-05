@@ -2,7 +2,7 @@
 
 import { Shrine } from "@/lib/shrines";
 import { getDeitySymbol } from "@/lib/deityIcons";
-import { X, MapPin, BookOpen, Sparkles, CheckCircle2, ChevronDown } from "lucide-react";
+import { X, MapPin, BookOpen, Sparkles, CheckCircle2, ChevronDown, Users, ChevronRight } from "lucide-react";
 
 interface DeityDetailPanelProps {
   shrine: Shrine;
@@ -10,6 +10,8 @@ interface DeityDetailPanelProps {
   onVisit: () => void;
   onClose: () => void;
   isClosing: boolean;
+  allShrines?: Shrine[];
+  onNavigateToDeity?: (deityId: string) => void;
 }
 
 // 神様の通り名（異名・別称）
@@ -62,9 +64,100 @@ export default function DeityDetailPanel({
   onVisit,
   onClose,
   isClosing,
+  allShrines = [],
+  onNavigateToDeity,
 }: DeityDetailPanelProps) {
   const epithet = deityEpithets[shrine.id] || shrine.category + "の神";
   const quote = mythologyQuotes[shrine.id];
+
+  // 関係する神の名前を取得するヘルパー
+  const getDeityName = (id: string): string | null => {
+    const deity = allShrines.find((s) => s.id === id);
+    return deity?.deity || null;
+  };
+
+  // 関係性リンクをレンダリング
+  const renderRelationLink = (id: string) => {
+    const name = getDeityName(id);
+    if (!name) return null;
+
+    return (
+      <button
+        key={id}
+        onClick={() => onNavigateToDeity?.(id)}
+        className="inline-flex items-center gap-1 px-2 py-1 bg-[#d4af37]/10 hover:bg-[#d4af37]/20 border border-[#d4af37]/30 rounded-lg text-sm text-[#f4e4a6] transition-colors"
+      >
+        <span>{name}</span>
+        <ChevronRight size={14} className="text-[#d4af37]" />
+      </button>
+    );
+  };
+
+  // 系譜セクションをレンダリング
+  const renderGenealogySection = () => {
+    const relations = shrine.relations;
+    if (!relations || !onNavigateToDeity || allShrines.length === 0) return null;
+
+    const hasRelations =
+      relations.father ||
+      relations.mother ||
+      (relations.spouse && relations.spouse.length > 0) ||
+      (relations.children && relations.children.length > 0) ||
+      (relations.siblings && relations.siblings.length > 0);
+
+    if (!hasRelations) return null;
+
+    return (
+      <div className="fade-in" style={{ animationDelay: "0.45s" }}>
+        <div className="flex items-center gap-2 mb-3">
+          <Users className="text-[#d4af37]" size={18} />
+          <h3 className="text-sm font-medium text-[#d4af37] tracking-wider">系譜</h3>
+        </div>
+        <div className="pl-6 space-y-3">
+          {relations.father && (
+            <div>
+              <p className="text-xs text-[#a0a0a0] mb-1">父</p>
+              <div className="flex flex-wrap gap-2">
+                {renderRelationLink(relations.father)}
+              </div>
+            </div>
+          )}
+          {relations.mother && (
+            <div>
+              <p className="text-xs text-[#a0a0a0] mb-1">母</p>
+              <div className="flex flex-wrap gap-2">
+                {renderRelationLink(relations.mother)}
+              </div>
+            </div>
+          )}
+          {relations.siblings && relations.siblings.length > 0 && (
+            <div>
+              <p className="text-xs text-[#a0a0a0] mb-1">兄弟姉妹</p>
+              <div className="flex flex-wrap gap-2">
+                {relations.siblings.map((id) => renderRelationLink(id))}
+              </div>
+            </div>
+          )}
+          {relations.spouse && relations.spouse.length > 0 && (
+            <div>
+              <p className="text-xs text-[#a0a0a0] mb-1">配偶者</p>
+              <div className="flex flex-wrap gap-2">
+                {relations.spouse.map((id) => renderRelationLink(id))}
+              </div>
+            </div>
+          )}
+          {relations.children && relations.children.length > 0 && (
+            <div>
+              <p className="text-xs text-[#a0a0a0] mb-1">子</p>
+              <div className="flex flex-wrap gap-2">
+                {relations.children.map((id) => renderRelationLink(id))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -165,6 +258,9 @@ export default function DeityDetailPanel({
                 <p className="text-[#f4e4a6] font-medium">{shrine.blessing}</p>
               </div>
             </div>
+
+            {/* 系譜 */}
+            {renderGenealogySection()}
 
             {/* カテゴリ */}
             <div className="fade-in" style={{ animationDelay: "0.5s" }}>
@@ -279,6 +375,58 @@ export default function DeityDetailPanel({
               <p className="text-xs text-[#d4af37]/70 mb-0.5">ご利益</p>
               <p className="text-sm text-[#f4e4a6] font-medium">{shrine.blessing}</p>
             </div>
+
+            {/* 系譜（モバイル版） */}
+            {shrine.relations && onNavigateToDeity && allShrines.length > 0 && (
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Users className="text-[#d4af37]" size={16} />
+                  <h3 className="text-xs font-medium text-[#d4af37] tracking-wider">系譜</h3>
+                </div>
+                <div className="pl-6 space-y-2">
+                  {shrine.relations.father && (
+                    <div>
+                      <p className="text-xs text-[#a0a0a0] mb-1">父</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {renderRelationLink(shrine.relations.father)}
+                      </div>
+                    </div>
+                  )}
+                  {shrine.relations.mother && (
+                    <div>
+                      <p className="text-xs text-[#a0a0a0] mb-1">母</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {renderRelationLink(shrine.relations.mother)}
+                      </div>
+                    </div>
+                  )}
+                  {shrine.relations.siblings && shrine.relations.siblings.length > 0 && (
+                    <div>
+                      <p className="text-xs text-[#a0a0a0] mb-1">兄弟姉妹</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {shrine.relations.siblings.map((id) => renderRelationLink(id))}
+                      </div>
+                    </div>
+                  )}
+                  {shrine.relations.spouse && shrine.relations.spouse.length > 0 && (
+                    <div>
+                      <p className="text-xs text-[#a0a0a0] mb-1">配偶者</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {shrine.relations.spouse.map((id) => renderRelationLink(id))}
+                      </div>
+                    </div>
+                  )}
+                  {shrine.relations.children && shrine.relations.children.length > 0 && (
+                    <div>
+                      <p className="text-xs text-[#a0a0a0] mb-1">子</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {shrine.relations.children.map((id) => renderRelationLink(id))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* カテゴリ */}
             <span className="inline-block px-3 py-1 text-xs bg-[#d4af37]/10 border border-[#d4af37]/30 rounded-full text-[#d4af37]">

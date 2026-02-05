@@ -57,57 +57,54 @@ export default function Sidebar({
       </div>
 
       {/* Header */}
-      <div className="relative p-6 border-b border-[#d4af37]/20">
-        <div className="flex items-center gap-3 mb-2">
-          <span className="text-3xl">⛩️</span>
-          <h1 className="text-2xl font-semibold text-[#f4e4a6] tracking-wider">
+      <div className="relative py-3 px-4 border-b border-[#d4af37]/20">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl">⛩️</span>
+          <h1 className="text-xl font-semibold text-[#f4e4a6] tracking-wider">
             神制覇
           </h1>
+          <span className="text-[#a0a0a0] text-xs ml-auto">古事記の神々を巡る旅</span>
         </div>
-        <p className="text-[#a0a0a0] text-sm tracking-wide">
-          〜 古事記の神々を巡る旅 〜
-        </p>
       </div>
 
       {/* Progress */}
-      <div className="relative p-6 border-b border-[#d4af37]/20">
-        <div className="flex justify-between items-end mb-3">
-          <span className="text-[#a0a0a0] text-sm">制覇率</span>
+      <div className="relative py-3 px-4 border-b border-[#d4af37]/20">
+        <div className="flex items-center gap-4">
+          <div className="flex-1">
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-[#a0a0a0] text-xs">制覇率</span>
+              <span className="text-xs text-[#a0a0a0]">
+                <span className="text-[#d4af37] font-semibold">{visitedCount}</span>/{totalCount}柱
+              </span>
+            </div>
+            <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-1000 ease-out relative"
+                style={{
+                  width: `${percentage}%`,
+                  background: "linear-gradient(90deg, #d4af37, #f4e4a6)",
+                  boxShadow: "0 0 10px rgba(212, 175, 55, 0.5)",
+                }}
+              />
+            </div>
+          </div>
           <div className="text-right">
-            <span className="text-4xl font-bold text-[#d4af37]">{percentage}</span>
-            <span className="text-xl text-[#d4af37]/70">%</span>
+            <span className="text-3xl font-bold text-[#d4af37]">{percentage}</span>
+            <span className="text-lg text-[#d4af37]/70">%</span>
           </div>
         </div>
-        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-          <div
-            className="h-full rounded-full transition-all duration-1000 ease-out relative"
-            style={{
-              width: `${percentage}%`,
-              background: "linear-gradient(90deg, #d4af37, #f4e4a6)",
-              boxShadow: "0 0 20px rgba(212, 175, 55, 0.5)",
-            }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" />
-          </div>
-        </div>
-        <p className="text-[#a0a0a0] text-sm mt-2 text-center">
-          <span className="text-[#d4af37] font-semibold">{visitedCount}</span>
-          <span className="mx-1">/</span>
-          <span>{totalCount}</span>
-          <span className="ml-1">柱</span>
-        </p>
       </div>
 
       {/* Search */}
-      <div className="relative p-4 border-b border-[#d4af37]/20">
+      <div className="relative py-2 px-4 border-b border-[#d4af37]/20">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#d4af37]/50" size={20} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#d4af37]/50" size={16} />
           <input
             type="text"
             placeholder="神名・神社名で検索..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white/5 border border-[#d4af37]/20 rounded-xl py-3.5 pl-12 pr-4 text-base text-[#e8e4d9] placeholder-[#a0a0a0]/50 focus:outline-none focus:border-[#d4af37]/50 focus:bg-white/10 transition-all"
+            className="w-full bg-white/5 border border-[#d4af37]/20 rounded-lg py-2 pl-9 pr-3 text-sm text-[#e8e4d9] placeholder-[#a0a0a0]/50 focus:outline-none focus:border-[#d4af37]/50 focus:bg-white/10 transition-all"
           />
         </div>
       </div>
@@ -116,29 +113,29 @@ export default function Sidebar({
       <div className="relative border-b border-[#d4af37]/20">
         <button
           onClick={() => setShowCategoryFilter(!showCategoryFilter)}
-          className="w-full p-4 flex items-center justify-between text-[#e8e4d9] hover:bg-white/5 active:bg-white/10 transition-colors"
+          className="w-full py-2 px-4 flex items-center justify-between text-[#e8e4d9] hover:bg-white/5 active:bg-white/10 transition-colors"
         >
-          <span className="flex items-center gap-3">
-            <Filter className="text-[#d4af37]" size={18} />
-            <span className="text-base">カテゴリ</span>
+          <span className="flex items-center gap-2">
+            <Filter className="text-[#d4af37]" size={16} />
+            <span className="text-sm">カテゴリ</span>
             {selectedCategory && (
-              <span className="text-sm bg-[#d4af37]/20 text-[#d4af37] px-2.5 py-1 rounded-lg">
+              <span className="text-xs bg-[#d4af37]/20 text-[#d4af37] px-2 py-0.5 rounded">
                 {selectedCategory}
               </span>
             )}
           </span>
           {showCategoryFilter ? (
-            <ChevronUp className="text-[#d4af37]" size={20} />
+            <ChevronUp className="text-[#d4af37]" size={18} />
           ) : (
-            <ChevronDown className="text-[#d4af37]" size={20} />
+            <ChevronDown className="text-[#d4af37]" size={18} />
           )}
         </button>
 
         {showCategoryFilter && (
-          <div className="px-4 pb-4 max-h-64 overflow-y-auto">
+          <div className="px-4 pb-3 max-h-48 overflow-y-auto">
             <button
               onClick={() => setSelectedCategory(null)}
-              className={`w-full text-left px-4 py-3 rounded-xl text-base mb-2 transition-colors active:scale-[0.98] ${
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm mb-1 transition-colors active:scale-[0.98] ${
                 !selectedCategory
                   ? "bg-[#d4af37]/20 text-[#d4af37]"
                   : "text-[#a0a0a0] hover:bg-white/5"
@@ -152,14 +149,14 @@ export default function Sidebar({
                 <button
                   key={cat.name}
                   onClick={() => setSelectedCategory(cat.name)}
-                  className={`w-full text-left px-4 py-3 rounded-xl text-base mb-2 transition-colors flex justify-between active:scale-[0.98] ${
+                  className={`w-full text-left px-3 py-2 rounded-lg text-sm mb-1 transition-colors flex justify-between active:scale-[0.98] ${
                     selectedCategory === cat.name
                       ? "bg-[#d4af37]/20 text-[#d4af37]"
                       : "text-[#a0a0a0] hover:bg-white/5"
                   }`}
                 >
                   <span>{cat.name}</span>
-                  <span className="text-sm opacity-70">
+                  <span className="text-xs opacity-70">
                     {cat.visited}/{cat.total}
                   </span>
                 </button>
@@ -170,11 +167,11 @@ export default function Sidebar({
 
       {/* Shrine List */}
       <div className="relative flex-1 overflow-y-auto">
-        <div className="p-4 pb-20 lg:pb-4">
-          <h2 className="text-xs text-[#d4af37]/50 uppercase tracking-widest mb-4">
+        <div className="px-3 py-2 pb-20 lg:pb-3">
+          <h2 className="text-xs text-[#d4af37]/50 uppercase tracking-widest mb-2 px-1">
             神々一覧（{filteredShrines.length}柱）
           </h2>
-          <ul className="space-y-2">
+          <ul className="space-y-1.5">
             {filteredShrines.map((shrine) => {
               const visited = visitedIds.has(shrine.id);
               const isSelected = selectedShrine === shrine.id;
@@ -182,7 +179,7 @@ export default function Sidebar({
                 <li key={shrine.id}>
                   <button
                     onClick={() => onSelectShrine(shrine.id)}
-                    className={`w-full text-left p-4 rounded-xl transition-all active:scale-[0.98] ${
+                    className={`w-full text-left p-3 rounded-lg transition-all active:scale-[0.98] ${
                       isSelected
                         ? "bg-[#d4af37]/20 border border-[#d4af37]/50 shadow-lg shadow-[#d4af37]/10"
                         : visited
@@ -190,29 +187,29 @@ export default function Sidebar({
                         : "bg-white/5 border border-white/10 hover:bg-white/10"
                     }`}
                   >
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
                       <div
-                        className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-xl ${
+                        className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-lg ${
                           visited
                             ? "bg-[#d4af37]/20 border border-[#d4af37]/50"
                             : "bg-white/5 border border-white/20"
                         }`}
                       >
                         {visited ? (
-                          <CheckCircle2 className="text-[#d4af37]" size={22} />
+                          <CheckCircle2 className="text-[#d4af37]" size={18} />
                         ) : (
                           getDeitySymbol(shrine.category, shrine.id)
                         )}
                       </div>
                       <div className="min-w-0 flex-1">
                         <p
-                          className={`font-medium truncate text-base ${
+                          className={`font-medium truncate text-sm ${
                             visited ? "text-[#d4af37]" : "text-[#e8e4d9]"
                           }`}
                         >
                           {shrine.deity}
                         </p>
-                        <p className="text-sm text-[#a0a0a0] truncate">{shrine.name}</p>
+                        <p className="text-xs text-[#a0a0a0] truncate">{shrine.name}</p>
                       </div>
                     </div>
                   </button>
@@ -224,7 +221,7 @@ export default function Sidebar({
       </div>
 
       {/* Footer */}
-      <div className="relative p-4 border-t border-[#d4af37]/20 text-center">
+      <div className="relative py-2 px-4 border-t border-[#d4af37]/20 text-center">
         <p className="text-xs text-[#a0a0a0]/50">
           Supported by K.SAKAI
         </p>
