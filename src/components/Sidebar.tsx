@@ -226,7 +226,7 @@ export default function Sidebar({
       {/* Footer */}
       <div className="relative p-4 border-t border-[#d4af37]/20 text-center">
         <p className="text-xs text-[#a0a0a0]/50">
-          Built with Claude Code
+          Supported by K.SAKAI
         </p>
       </div>
     </div>
